@@ -9,6 +9,7 @@ public class ScaleableEntity : MonoBehaviour
     [SerializeField] BoxCollider2D col;
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Transform contact;
+    [SerializeField] GameObject handSprite;
 
     private Vector2 colOffset, srOffset, contactOffset;
     private int lastScaleIndex;
@@ -70,6 +71,7 @@ public class ScaleableEntity : MonoBehaviour
             if (lerp == 1f)
             {
                 lerping = false;
+                handSprite.SetActive(false);
             }
         }
     }
@@ -106,6 +108,8 @@ public class ScaleableEntity : MonoBehaviour
         }
 
         lerping = true;
+        handSprite.SetActive(true);
+
         lerp = 0f;
 
         lastScaleIndex = currentScaleIndex;
