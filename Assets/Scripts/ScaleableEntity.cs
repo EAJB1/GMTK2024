@@ -55,7 +55,7 @@ public class ScaleableEntity : MonoBehaviour
     {
         if (lerping)
         {
-            lerp += scaleSpeed * Time.fixedDeltaTime;
+            lerp += scaleSpeed * Time.deltaTime;
             lerp = Mathf.Clamp01(lerp);
 
             Vector2 s = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
