@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3372566076422146723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 3383325319453459619}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0.375, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -358,14 +358,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 1523547821197900995}
+  anim: {fileID: 8565831755087571608}
   feet: {fileID: 1475648273822089186}
   shield: {fileID: 4047007615210206070}
   rb: {fileID: 6246842682872840727}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  groundCheckSize: {x: 0.7, y: 0.55}
-  shieldCheckSize: {x: 0.3, y: 0.8}
+  groundCheckSize: {x: 0.625, y: 0.5}
+  shieldCheckSize: {x: 0.125, y: 0.75}
   xDirection: 1
   moveSpeed: 2.5
   jumpHeight: 1.25

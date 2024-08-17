@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public static Player instance;
 
     [SerializeField] SpriteRenderer sr;
+    [SerializeField] Animator anim;
     [SerializeField] Transform feet, shield;
     [SerializeField] Rigidbody2D rb;
 
@@ -24,9 +25,10 @@ public class Player : MonoBehaviour
     float jumpBufferCounter;
 
     InputActionPhase jumpPhase;
+    bool midJump;
 
     Vector2 moveDirection = Vector2.right;
-    bool isGrounded, canJump;
+    bool isGrounded = true, canJump;
 
     private void OnDrawGizmosSelected()
     {
@@ -40,6 +42,11 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        anim.SetBool("Running", true);
     }
 
     private void Update()
@@ -61,14 +68,26 @@ public class Player : MonoBehaviour
     {
         if(Physics2D.OverlapBox(new Vector2(transform.position.x + xDirection * shield.localPosition.x, shield.position.y), shieldCheckSize, 0f, groundLayer))
         {
+            SoundManager.instance.PlaySound("Shield Hit");
+
             FlipDirection();
         }
 
         Vector2 v = rb.velocity;
-        
-        isGrounded = v.y <= 0.01f && Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
 
-        Debug.Log(v.y);
+        if(v.y <= 0f)
+        {
+            midJump = false;
+        }
+
+        bool wasGrounded = isGrounded;
+        isGrounded = !midJump && Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
+
+        if(!wasGrounded && isGrounded)
+        {
+            v.y = 0f;
+            SoundManager.instance.PlaySound("Land");
+        }
 
         v.x = xDirection * moveSpeed;
 
@@ -85,13 +104,19 @@ public class Player : MonoBehaviour
         if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
         {
             v.y = Mathf.Sqrt(2f * jumpHeight * Physics2D.gravity.magnitude * upGravity);
-            
+
+            midJump = true;
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
+
+            SoundManager.instance.PlaySound("Jump");
         }
 
-        rb.gravityScale = rb.velocity.y < 0f ? downGravity : upGravity;
+        rb.gravityScale = v.y <= 0f ? downGravity : upGravity;
         rb.velocity = v;
+
+        anim.SetBool("Falling", !isGrounded && v.y < 0f);
+        anim.SetBool("Jumping", !isGrounded && v.y >= 0f);
     }
 
     public void Jump(InputAction.CallbackContext ctx)
@@ -117,4 +142,9 @@ public class Player : MonoBehaviour
             FlipDirection();
         }
     }*/
+
+    public void PlayStepSound()
+    {
+        SoundManager.instance.PlaySound("Step");
+    }
 }

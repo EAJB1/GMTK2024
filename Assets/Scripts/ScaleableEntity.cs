@@ -7,8 +7,10 @@ public class ScaleableEntity : MonoBehaviour
     public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green };
 
     [SerializeField] BoxCollider2D col;
+    [SerializeField] SpriteRenderer sr;
+    [SerializeField] Transform contact;
 
-    private Vector2 colOffset;
+    private Vector2 colOffset, srOffset, contactOffset;
     private int lastScaleIndex;
     private int currentScaleIndex;
     public Vector2[] scales;
@@ -37,6 +39,8 @@ public class ScaleableEntity : MonoBehaviour
     {
         lastScaleIndex = scales.Length - 1;
         colOffset = col.offset;
+        srOffset = sr.transform.localPosition;
+        contactOffset = contact.localPosition;
     }
 
     private void OnMouseOver()
@@ -54,6 +58,11 @@ public class ScaleableEntity : MonoBehaviour
             lerp += scaleSpeed * Time.fixedDeltaTime;
             lerp = Mathf.Clamp01(lerp);
 
+            Vector2 s = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
+            contact.localPosition = contactOffset * s;
+
+            sr.size = s;
+            sr.transform.localPosition = srOffset * s;
 
             if (lerp == 1f)
             {
@@ -64,26 +73,17 @@ public class ScaleableEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.GetChild(0).localScale = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
-        col.size = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
-        col.offset = colOffset * col.size;
+        Vector2 s = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
+
+        col.size = s;
+        col.offset = colOffset * s;
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject == Player.instance.gameObject)
         {
-            collision.transform.parent = transform.GetChild(0);
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject == Player.instance.gameObject)
-        {
-            Vector2 s = transform.GetChild(0).localScale;
-            s = new Vector2(1f / s.x, 1f / s.y);
-            collision.transform.localScale = s;
+            collision.transform.parent = contact;
         }
     }
 
@@ -92,9 +92,8 @@ public class ScaleableEntity : MonoBehaviour
         if (collision.gameObject == Player.instance.gameObject)
         {
             collision.transform.parent = null;
-            collision.transform.localScale = Vector2.one;
         }
-    }*/
+    }
 
     public void Interact()
     {
@@ -113,5 +112,7 @@ public class ScaleableEntity : MonoBehaviour
         {
             currentScaleIndex = 0;
         }
+
+        SoundManager.instance.PlaySound("Scale Up");
     }
 }
