@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4624985039881108364}
   - component: {fileID: 7605157930745227578}
   - component: {fileID: 2575382945139020100}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ScalableEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3244167484511939510}
   - component: {fileID: 196596398803880524}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

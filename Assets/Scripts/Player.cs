@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -26,19 +27,38 @@ public class Player : MonoBehaviour
     Vector2 moveDirection = Vector2.right;
     bool isGrounded, canJump;
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(feet.position, groundCheckSize);
+    }
+
     private void Awake()
     {
         instance = this;
     }
 
+    private void Update()
+    {
+        if (jumpPhase == InputActionPhase.Performed)
+        {
+            jumpBufferCounter = jumpBufferTime;
+
+            jumpPhase = InputActionPhase.Canceled;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+    }
+
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
-
         Vector2 v = rb.velocity;
-        v.x = xDirection * moveSpeed;
+        
+        isGrounded = v.y <= 0f && Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
 
-        rb.gravityScale = rb.velocity.y < 0f ? downGravity : upGravity;
+        v.x = xDirection * moveSpeed;
 
         if (isGrounded)
         {
@@ -46,30 +66,18 @@ public class Player : MonoBehaviour
         }
         else
         {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        if (jumpPhase == InputActionPhase.Performed)
-        {
-            jumpBufferCounter = jumpBufferTime;
-        }
-        else
-        {
-            jumpBufferCounter -= Time.deltaTime;
+            coyoteTimeCounter -= Time.fixedDeltaTime;
         }
 
         if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
         {
-            v.y = Mathf.Sqrt(2f * jumpHeight * Physics2D.gravity.magnitude * rb.gravityScale);
+            v.y = Mathf.Sqrt(2f * jumpHeight * Physics2D.gravity.magnitude * upGravity);
             
             jumpBufferCounter = 0f;
-        }
-
-        if (jumpPhase == InputActionPhase.Performed && v.y > 0f)
-        {
             coyoteTimeCounter = 0f;
         }
 
+        rb.gravityScale = rb.velocity.y < 0f ? downGravity : upGravity;
         rb.velocity = v;
     }
 
@@ -83,17 +91,16 @@ public class Player : MonoBehaviour
         xDirection *= -1;
     }
 
+    public void Die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (Mathf.Abs(collision.contacts[0].point.x - rb.position.x) > 0.45f)
         {
             FlipDirection();
         }
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(feet.position, groundCheckSize);
     }
 }

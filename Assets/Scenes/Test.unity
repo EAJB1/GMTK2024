@@ -265,10 +265,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScalableEntity
       objectReference: {fileID: 0}
-    - target: {fileID: 1493118340512010236, guid: e7e0b39fff95e9144bf9d930511394b2, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4624985039881108364, guid: e7e0b39fff95e9144bf9d930511394b2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -308,10 +304,6 @@ PrefabInstance:
     - target: {fileID: 4624985039881108364, guid: e7e0b39fff95e9144bf9d930511394b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8880648893268642041, guid: e7e0b39fff95e9144bf9d930511394b2, type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
