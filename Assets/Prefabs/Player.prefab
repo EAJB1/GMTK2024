@@ -329,12 +329,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
   groundCheckSize: {x: 0.1, y: 0.1}
   xDirection: 1
   moveSpeed: 2.5
   jumpHeight: 1.25
   upGravity: 1
   downGravity: 1.5
+  coyoteTime: 0.2
+  jumpBufferTime: 0.1

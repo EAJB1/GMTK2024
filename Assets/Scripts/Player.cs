@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,14 +12,19 @@ public class Player : MonoBehaviour
 
     [Space]
 
-    [SerializeField] LayerMask groundLayer, wallLayer;
+    [SerializeField] LayerMask groundLayer;
     [SerializeField] Vector2 groundCheckSize;
-    [SerializeField] float xDirection, moveSpeed, jumpHeight, upGravity, downGravity;
+    [SerializeField] float xDirection, moveSpeed;
+    [SerializeField] float jumpHeight, upGravity, downGravity;
+    [SerializeField] float coyoteTime;
+    float coyoteTimeCounter;
+    [SerializeField] float jumpBufferTime;
+    float jumpBufferCounter;
 
     InputActionPhase jumpPhase;
 
     Vector2 moveDirection = Vector2.right;
-    bool isGrounded;
+    bool isGrounded, canJump;
 
     private void Awake()
     {
@@ -38,10 +42,32 @@ public class Player : MonoBehaviour
 
         if (isGrounded)
         {
-            if (jumpPhase == InputActionPhase.Performed)
-            {
-                v.y = Mathf.Sqrt(2f * jumpHeight * Physics2D.gravity.magnitude * rb.gravityScale);
-            }
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (jumpPhase == InputActionPhase.Performed)
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
+        {
+            v.y = Mathf.Sqrt(2f * jumpHeight * Physics2D.gravity.magnitude * rb.gravityScale);
+            
+            jumpBufferCounter = 0f;
+        }
+
+        if (jumpPhase == InputActionPhase.Performed && v.y > 0f)
+        {
+            coyoteTimeCounter = 0f;
         }
 
         rb.velocity = v;
