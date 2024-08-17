@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraOffset: {x: 0, y: 4, z: -10}
-  lerp: 4
-  target: {fileID: 8240057132074342081, guid: d3a28b54aced6fe4691af2fa0091f6c5, type: 3}
+  lerp: 6
   allBounds:
   - {fileID: 8240057132074342081, guid: d3a28b54aced6fe4691af2fa0091f6c5, type: 3}
   - {fileID: 3053943414406015772, guid: 5e83f19120cfd00438e5c3773daad19d, type: 3}
+  - {fileID: 8992480023992174959, guid: ffbdade737f1f7c46a771aa15c1452ff, type: 3}

@@ -6,19 +6,21 @@ public class CameraController: MonoBehaviour
 {
     [SerializeField] Vector3 cameraOffset;
     [SerializeField] float lerp;
-    [SerializeField] Transform target;
     [SerializeField] Transform[] allBounds;
-    
-    float[] distance;
 
-    void Start()
-    {
-        distance = new float[allBounds.Length];
-    }
+    Transform currentBounds;
 
     void Update()
     {
-        FindClosestBounds();
+        currentBounds = null;
+
+        foreach (Transform t in allBounds)
+        {
+            if (InBounds(t))
+            {
+                currentBounds = t;
+            }
+        }
     }
 
     void LateUpdate()
@@ -32,20 +34,20 @@ public class CameraController: MonoBehaviour
 
         newPosition = cameraOffset + Player.instance.transform.position;
 
-        if (InBounds())
+        if (currentBounds != null)
         {
-            Lerp(target.position);
+            Lerp(currentBounds.position);
             return;
         }
 
         Lerp(newPosition);
     }
 
-    bool InBounds()
+    bool InBounds(Transform currentBound)
     {
-        Vector3 bounds = target.localScale;
+        Vector3 bounds = currentBound.localScale;
 
-        Vector2 distance = target.position - Player.instance.transform.position;
+        Vector2 distance = currentBound.position - Player.instance.transform.position;
 
         if (distance.x <= bounds.x / 2f &&
             distance.x >= -bounds.x / 2f &&
@@ -66,7 +68,7 @@ public class CameraController: MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, pos, lerp * Time.deltaTime);
     }
 
-    void FindClosestBounds()
+    /*void FindClosestBounds()
     {
         float smallest = distance[0];
         Transform closest = allBounds[0];
@@ -83,5 +85,5 @@ public class CameraController: MonoBehaviour
         }
 
         target = closest;
-    }
+    }*/
 }
