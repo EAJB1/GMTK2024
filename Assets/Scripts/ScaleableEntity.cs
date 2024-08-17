@@ -6,6 +6,10 @@ public class ScaleableEntity : MonoBehaviour
 {
     public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green };
 
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] BoxCollider2D col;
+
+    private Vector2 colOffset;
     private int lastScaleIndex;
     private int currentScaleIndex;
     public Vector2[] scales;
@@ -13,13 +17,12 @@ public class ScaleableEntity : MonoBehaviour
     public AnimationCurve scaleCurve;
 
     bool lerping;
-    float lerp;
+    float lerp = 1f;
 
     private void OnDrawGizmosSelected()
     {
-        Vector2 offset = transform.GetChild(0).localPosition;
-        offset.x /= scales[0].x;
-        offset.y /= scales[0].y;
+        Vector2 offset = col.offset;
+        offset /= col.size;
 
         for (int i = 0; i < scales.Length; i++)
         {
@@ -34,6 +37,7 @@ public class ScaleableEntity : MonoBehaviour
     private void Start()
     {
         lastScaleIndex = scales.Length - 1;
+        colOffset = col.offset;
     }
 
     private void OnMouseOver()
@@ -48,17 +52,22 @@ public class ScaleableEntity : MonoBehaviour
     {
         if (lerping)
         {
-            lerp += scaleSpeed * Time.deltaTime;
+            lerp += scaleSpeed * Time.fixedDeltaTime;
             lerp = Mathf.Clamp01(lerp);
 
-            transform.localScale = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
+            transform.GetChild(0).localScale = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
 
-            if(lerp == 1f)
+            if (lerp == 1f)
             {
-                lerp = 0f;
                 lerping = false;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        col.size = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
+        col.offset = colOffset * col.size;
     }
 
     /*private void OnCollisionStay2D(Collision2D collision)
@@ -77,6 +86,7 @@ public class ScaleableEntity : MonoBehaviour
         }
 
         lerping = true;
+        lerp = 0f;
 
         lastScaleIndex = currentScaleIndex;
         currentScaleIndex++;

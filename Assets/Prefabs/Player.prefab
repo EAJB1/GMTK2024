@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 104437864295211589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3383325319453459619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4047007615210206070}
+  m_Layer: 8
+  m_Name: Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4047007615210206070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3383325319453459619}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 104437864295211589}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3680855613966919539
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +90,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.75, z: 0}
-  m_LocalScale: {x: 1, y: 0.75, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 104437864295211589}
@@ -105,7 +136,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 359428101, guid: 3a6fb6f6eaa585541bde4ac274c8a08e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -149,7 +180,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.75, y: 1.5}
   m_Direction: 0
 --- !u!1 &6864662330325667069
 GameObject:
@@ -185,6 +216,7 @@ Transform:
   m_Children:
   - {fileID: 4577667178301482427}
   - {fileID: 1475648273822089186}
+  - {fileID: 4047007615210206070}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6098046529699321231
@@ -309,8 +341,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &7718399495711874300
 MonoBehaviour:
@@ -324,12 +356,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7ffbffe4670844b9d3c19a3e2ba5e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 1523547821197900995}
   feet: {fileID: 1475648273822089186}
+  shield: {fileID: 4047007615210206070}
   rb: {fileID: 6246842682872840727}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  groundCheckSize: {x: 0.75, y: 0.55}
+  groundCheckSize: {x: 0.7, y: 0.55}
+  shieldCheckSize: {x: 0.3, y: 1}
   xDirection: 1
   moveSpeed: 2.5
   jumpHeight: 1.25
