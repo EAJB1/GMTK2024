@@ -156,6 +156,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  parentsPlayer: 1
 --- !u!50 &5593470107598138315
 Rigidbody2D:
   serializedVersion: 4
