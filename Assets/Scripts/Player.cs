@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         else
         {
             jumpBufferCounter -= Time.deltaTime;
+            jumpBufferCounter = Mathf.Clamp(jumpBufferCounter, 0f, jumpBufferTime);
         }
     }
 
@@ -65,7 +66,9 @@ public class Player : MonoBehaviour
 
         Vector2 v = rb.velocity;
         
-        isGrounded = v.y <= 0f && Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
+        isGrounded = v.y <= 0.01f && Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
+
+        Debug.Log(v.y);
 
         v.x = xDirection * moveSpeed;
 
@@ -76,6 +79,7 @@ public class Player : MonoBehaviour
         else
         {
             coyoteTimeCounter -= Time.fixedDeltaTime;
+            coyoteTimeCounter = Mathf.Clamp(coyoteTimeCounter, 0f, coyoteTime);
         }
 
         if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f)

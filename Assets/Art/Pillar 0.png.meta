@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3a6fb6f6eaa585541bde4ac274c8a08e
+guid: 1ce0eb887e0831b4fa80909ff8d999cd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,19 +81,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spartan_idle_0
+      name: Pillar 0_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 32
         width: 16
-        height: 24
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a81c848f47087ae40bcb45743f5b74a5
-      internalID: 359428101
+      spriteID: ca756e6e460a1474ea0db81f7422dbff
+      internalID: -1425626599
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spartan_idle_1
+      name: Pillar 0_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 0
+        y: 16
         width: 16
-        height: 24
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,8 +145,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35672f5ea102cf0429e6bbe8bb8181ae
-      internalID: 1311557412
+      spriteID: f6687871a2ffcc642957c8e89ee4419b
+      internalID: -1349955502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pillar 0_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb2d288f76f65784aa1cb748747d96bd
+      internalID: 922172358
       vertices: []
       indices: 
       edges: []
@@ -175,8 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      spartan_idle_0: 359428101
-      spartan_idle_1: 1311557412
+      Pillar 0_0: -1425626599
+      Pillar 0_1: -1349955502
+      Pillar 0_2: 922172358
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
