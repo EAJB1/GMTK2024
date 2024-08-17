@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     [SerializeField] Transform feet;
     [SerializeField] Rigidbody2D rb;
 
@@ -20,6 +22,11 @@ public class Player : MonoBehaviour
     Vector2 moveDirection = Vector2.right;
     bool isGrounded;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
@@ -33,7 +40,7 @@ public class Player : MonoBehaviour
         {
             if (jumpPhase == InputActionPhase.Performed)
             {
-                v.y = Mathf.Sqrt(2f * jumpHeight * rb.gravityScale);
+                v.y = Mathf.Sqrt(2f * jumpHeight * Physics2D.gravity.magnitude * rb.gravityScale);
             }
         }
 

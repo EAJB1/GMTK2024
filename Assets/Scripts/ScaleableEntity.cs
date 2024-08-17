@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ScaleableEntity : MonoBehaviour
 {
+    public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green };
+
     private int lastScaleIndex;
     private int currentScaleIndex;
     public Vector2[] scales;
@@ -12,6 +14,22 @@ public class ScaleableEntity : MonoBehaviour
 
     bool lerping;
     float lerp;
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector2 offset = transform.GetChild(0).localPosition;
+        offset.x /= scales[0].x;
+        offset.y /= scales[0].y;
+
+        for (int i = 0; i < scales.Length; i++)
+        {
+            Color c = gizmoColors[Mathf.Clamp(i, 0, gizmoColors.Length)];
+            c.a = 0.5f;
+            Gizmos.color = c;
+
+            Gizmos.DrawCube((Vector2)transform.position + (offset * scales[i]), scales[i]);
+        }
+    }
 
     private void Start()
     {
@@ -42,6 +60,14 @@ public class ScaleableEntity : MonoBehaviour
             }
         }
     }
+
+    /*private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject == Player.instance.gameObject)
+        {
+
+        }
+    }*/
 
     public void Interact()
     {
