@@ -13,9 +13,12 @@ public class ScaleableEntity : MonoBehaviour
     private Vector2 colOffset, srOffset, contactOffset;
     private int lastScaleIndex;
     private int currentScaleIndex;
+
     public Vector2[] scales;
     public float scaleSpeed;
     public AnimationCurve scaleCurve;
+
+    [SerializeField] bool parentsPlayer;
 
     bool lerping;
     float lerp = 1f;
@@ -81,7 +84,7 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject == Player.instance.gameObject)
+        if (parentsPlayer && collision.gameObject == Player.instance.gameObject)
         {
             collision.transform.parent = contact;
         }
@@ -89,7 +92,7 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject == Player.instance.gameObject)
+        if (parentsPlayer && collision.gameObject == Player.instance.gameObject)
         {
             collision.transform.parent = null;
         }

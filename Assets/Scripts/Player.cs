@@ -83,9 +83,10 @@ public class Player : MonoBehaviour
         bool wasGrounded = isGrounded;
         isGrounded = !midJump && Physics2D.OverlapBox(feet.position, groundCheckSize, 0f, groundLayer);
 
+        Debug.Log(wasGrounded.ToString() + isGrounded.ToString());
         if(!wasGrounded && isGrounded)
         {
-            v.y = 0f;
+            Debug.Log("-------");
             SoundManager.instance.PlaySound("Land");
         }
 
