@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (wallLayer == (wallLayer | (1<<collision.gameObject.layer)))
+        if (Mathf.Abs(collision.contacts[0].point.x - rb.position.x) > 0.45f)
         {
             FlipDirection();
         }
