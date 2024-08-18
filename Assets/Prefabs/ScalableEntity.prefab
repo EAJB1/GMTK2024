@@ -132,8 +132,8 @@ MonoBehaviour:
   handSprite: {fileID: 8730330444201653394}
   scales:
   - {x: 2, y: 1}
-  - {x: 2, y: 6}
-  scaleSpeed: 1.5
+  - {x: 2, y: 5}
+  scaleSpeed: 2
   scaleCurve:
     serializedVersion: 2
     m_Curve:

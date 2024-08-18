@@ -108,7 +108,6 @@ public class ScaleableEntity : MonoBehaviour
         }
 
         lerping = true;
-        handSprite.SetActive(true);
 
         lerp = 0f;
 
@@ -120,6 +119,9 @@ public class ScaleableEntity : MonoBehaviour
             currentScaleIndex = 0;
         }
 
+        handSprite.SetActive(true);
+        handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (scales[lastScaleIndex].magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
+        
         SoundManager.instance.PlaySound("Scale Up");
     }
 }

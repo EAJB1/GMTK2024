@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
 
         Vector2 v = rb.velocity;
 
-        if(v.y <= 0f)
+        if(v.y <= 5f)
         {
             midJump = false;
         }

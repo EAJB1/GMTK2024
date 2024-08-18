@@ -6,19 +6,24 @@ public class CameraController: MonoBehaviour
 {
     [SerializeField] Vector3 cameraOffset;
     [SerializeField] float lerp;
-    [SerializeField] Transform[] allBounds;
+    Bounds[] allBounds;
 
-    Transform currentBounds;
+    Bounds currentBounds;
+
+    private void Awake()
+    {
+        allBounds = FindObjectsByType<Bounds>(FindObjectsSortMode.None);
+    }
 
     void Update()
     {
         currentBounds = null;
 
-        foreach (Transform t in allBounds)
+        foreach (Bounds b in allBounds)
         {
-            if (InBounds(t))
+            if (InBounds(b))
             {
-                currentBounds = t;
+                currentBounds = b;
             }
         }
     }
@@ -36,18 +41,18 @@ public class CameraController: MonoBehaviour
 
         if (currentBounds != null)
         {
-            Lerp(currentBounds.position);
+            Lerp(currentBounds.transform.position);
             return;
         }
 
         Lerp(newPosition);
     }
 
-    bool InBounds(Transform currentBound)
+    bool InBounds(Bounds currentBounds)
     {
-        Vector3 bounds = currentBound.localScale;
+        Vector3 bounds = currentBounds.transform.localScale;
 
-        Vector2 distance = currentBound.position - Player.instance.transform.position;
+        Vector2 distance = currentBounds.transform.position - Player.instance.transform.position;
 
         if (distance.x <= bounds.x / 2f &&
             distance.x >= -bounds.x / 2f &&
