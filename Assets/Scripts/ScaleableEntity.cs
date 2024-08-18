@@ -35,16 +35,16 @@ public class ScaleableEntity : MonoBehaviour
             c.a = 0.5f;
             Gizmos.color = c;
 
-            Gizmos.DrawCube((Vector2)transform.position + (offset * scales[i]), scales[i]);
+            Gizmos.DrawCube((Vector2)transform.position + (Vector2)transform.TransformVector((offset * scales[i])), transform.TransformVector(scales[i]));
         }
     }
 
     private void Start()
     {
         lastScaleIndex = scales.Length - 1;
-        colOffset = col.offset;
-        srOffset = sr.transform.localPosition;
-        contactOffset = contact.localPosition;
+        colOffset = col.offset / scales[0];
+        srOffset = sr.transform.localPosition / scales[0];
+        contactOffset = contact.localPosition / scales[0];
     }
 
     private void OnMouseOver()
