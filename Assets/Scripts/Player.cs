@@ -22,17 +22,24 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Vector2 groundCheckSize, shieldCheckSize;
     [SerializeField] float xDirection, moveSpeed;
+    float previousXDirection;
     [SerializeField] float jumpHeight, upGravity, downGravity;
     [SerializeField] float coyoteTime;
     float coyoteTimeCounter;
     [SerializeField] float jumpBufferTime;
     float jumpBufferCounter;
 
+    [Space]
+
+    [SerializeField] Checkpoint currentCheckpoint;
+    bool waitingForInput;
+
     InputActionPhase jumpPhase, selectPhase;
     bool midJump;
 
     Vector2 moveDirection = Vector2.right;
     bool isGrounded = true, canJump;
+
 
     private void OnDrawGizmosSelected()
     {
@@ -65,6 +72,13 @@ public class Player : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
             jumpBufferCounter = Mathf.Clamp(jumpBufferCounter, 0f, jumpBufferTime);
+        }
+
+        if (waitingForInput && selectPhase == InputActionPhase.Performed ||
+            waitingForInput && jumpPhase == InputActionPhase.Performed)
+        {
+            StartPlayer();
+            // display text: "Click to continue"
         }
     }
 
@@ -147,21 +161,53 @@ public class Player : MonoBehaviour
         sr.flipX = !sr.flipX;
     }
 
-    public void Die()
+    public void Respawn()
     {
+        if (currentCheckpoint != null)
+        {
+            transform.position = currentCheckpoint.transform.position;
+
+            if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Left &&
+                xDirection == Mathf.Abs(xDirection) ||
+                currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
+                xDirection == -Mathf.Abs(xDirection))
+            {
+                FlipDirection();
+            }
+
+            if (currentCheckpoint.startStationary)
+            {
+                StopPlayer();
+            }
+
+            return;
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    /*void OnCollisionEnter2D(Collision2D collision)
+    public void SetCurrentCheckpoint(Checkpoint checkpoint)
     {
-        if (Mathf.Abs(collision.contacts[0].point.x - rb.position.x) > 0.45f)
-        {
-            FlipDirection();
-        }
-    }*/
+        currentCheckpoint = checkpoint;
+    }
 
     public void PlayStepSound()
     {
         SoundManager.instance.PlaySound("Step");
+    }
+
+    void StopPlayer()
+    {
+        previousXDirection = xDirection;
+        xDirection = 0f;
+        anim.SetBool("Running", false);
+        waitingForInput = true;
+    }
+
+    void StartPlayer()
+    {
+        xDirection = previousXDirection;
+        anim.SetBool("Running", true);
+        waitingForInput = false;
     }
 }
