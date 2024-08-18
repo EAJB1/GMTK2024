@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public static Player instance;
 
     [SerializeField] Texture2D openCursor, closedCursor;
+    [SerializeField] float cursorTextureTime;
 
     [Space]
 
@@ -148,11 +149,14 @@ public class Player : MonoBehaviour
         if (selectPhase == InputActionPhase.Performed)
         {
             Cursor.SetCursor(closedCursor, Vector2.zero, CursorMode.Auto);
+            StartCoroutine(CursorSelectWait());
         }
-        else if (selectPhase == InputActionPhase.Canceled)
-        {
-            Cursor.SetCursor(openCursor, Vector2.zero, CursorMode.Auto);
-        }
+    }
+
+    IEnumerator CursorSelectWait()
+    {
+        yield return new WaitForSeconds(cursorTextureTime);
+        Cursor.SetCursor(openCursor, Vector2.zero, CursorMode.Auto);
     }
 
     void FlipDirection()
