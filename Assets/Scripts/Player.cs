@@ -8,6 +8,10 @@ public class Player : MonoBehaviour
 {
     public static Player instance;
 
+    [SerializeField] Texture2D openCursor, closedCursor;
+
+    [Space]
+
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Animator anim;
     [SerializeField] Transform feet, shield;
@@ -24,7 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpBufferTime;
     float jumpBufferCounter;
 
-    InputActionPhase jumpPhase;
+    InputActionPhase jumpPhase, selectPhase;
     bool midJump;
 
     Vector2 moveDirection = Vector2.right;
@@ -123,6 +127,20 @@ public class Player : MonoBehaviour
     public void Jump(InputAction.CallbackContext ctx)
     {
         jumpPhase = ctx.phase;
+    }
+
+    public void Select(InputAction.CallbackContext ctx)
+    {
+        selectPhase = ctx.phase;
+
+        if (selectPhase == InputActionPhase.Performed)
+        {
+            Cursor.SetCursor(closedCursor, Vector2.zero, CursorMode.Auto);
+        }
+        else if (selectPhase == InputActionPhase.Canceled)
+        {
+            Cursor.SetCursor(openCursor, Vector2.zero, CursorMode.Auto);
+        }
     }
 
     void FlipDirection()
