@@ -6,11 +6,24 @@ public class Coin : MonoBehaviour
 {
     public static int coinsCollected = 0;
 
+    [Space]
+
+    [SerializeField] float speed, coinTime;
+
     CoinUI coinUI;
+    bool collected;
 
     void Awake()
     {
         coinUI = FindObjectOfType<CoinUI>();
+    }
+
+    void Update()
+    {
+        if (collected)
+        {
+            transform.position += speed * Time.deltaTime * Vector3.up;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -32,6 +45,15 @@ public class Coin : MonoBehaviour
 
         coinUI.UpdateCoinUI(coinsCollected);
 
+        StartCoroutine(CoinWait());
+    }
+
+    IEnumerator CoinWait()
+    {
+        collected = true;
+
+        yield return new WaitForSeconds(coinTime);
+        
         Destroy(gameObject);
     }
 }
