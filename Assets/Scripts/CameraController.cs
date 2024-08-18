@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController: MonoBehaviour
 {
+    [SerializeField] Camera cam;
     [SerializeField] Vector3 cameraOffset;
     [SerializeField] float lerp;
 
@@ -42,6 +43,7 @@ public class CameraController: MonoBehaviour
         if (currentBounds != null)
         {
             Lerp(currentBounds.transform.position);
+            cam.orthographicSize = currentBounds.cameraSize;
             return;
         }
 
