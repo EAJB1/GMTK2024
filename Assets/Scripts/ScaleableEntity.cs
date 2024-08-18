@@ -114,7 +114,7 @@ public class ScaleableEntity : MonoBehaviour
         lastScaleIndex = currentScaleIndex;
         currentScaleIndex++;
 
-        if(currentScaleIndex == scales.Length)
+        if(currentScaleIndex == scales.Length) //Instead of resetting scale, can we decrement to the last index, so it shrinks again on click instead of resetting at the end.
         {
             currentScaleIndex = 0;
         }

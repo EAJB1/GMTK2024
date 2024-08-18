@@ -6,8 +6,8 @@ public class CameraController: MonoBehaviour
 {
     [SerializeField] Vector3 cameraOffset;
     [SerializeField] float lerp;
-    Bounds[] allBounds;
 
+    Bounds[] allBounds;
     Bounds currentBounds;
 
     private void Awake()
@@ -72,23 +72,4 @@ public class CameraController: MonoBehaviour
         pos.z = cameraOffset.z;
         transform.position = Vector3.Lerp(transform.position, pos, lerp * Time.deltaTime);
     }
-
-    /*void FindClosestBounds()
-    {
-        float smallest = distance[0];
-        Transform closest = allBounds[0];
-
-        for (int i = 0; i < allBounds.Length; i++)
-        {
-            distance[i] = (allBounds[i].position - Player.instance.transform.position).magnitude;
-
-            if (distance[i] < smallest)
-            {
-                smallest = distance[i];
-                closest = allBounds[i];
-            }
-        }
-
-        target = closest;
-    }*/
 }

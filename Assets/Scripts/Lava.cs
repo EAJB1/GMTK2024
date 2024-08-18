@@ -22,9 +22,9 @@ public class Lava : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject == Player.instance.gameObject)
         {
-            Player.instance.Die();
+            Player.instance.Respawn();
         }
     }
 }
