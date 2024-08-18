@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    [SerializeField] Animator anim;
+
     public enum StartDirection { Left, Right };
 
     public StartDirection startDirection = StartDirection.Right;
@@ -19,8 +21,9 @@ public class Checkpoint : MonoBehaviour
 
             Player.instance.SetCurrentCheckpoint(this);
 
-            // Play checkpoint animation and sound
-            // Change colour of checkpoint
+            anim.SetBool("Hit", true);
+
+            // Play checkpoint sound
         }
     }
 }
