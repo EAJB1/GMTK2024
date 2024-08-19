@@ -10,6 +10,7 @@ public class Sound
     public AudioClip clip;
     public AudioSource source;
 
+    public bool loop;
     public float volume;
     public float pitchVariation;
 }
