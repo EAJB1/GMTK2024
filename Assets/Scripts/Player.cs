@@ -46,9 +46,6 @@ public class Player : MonoBehaviour
     Vector2 moveDirection = Vector2.right;
     bool isGrounded = true, canJump;
 
-    ScaleableEntity[] scaleableEntities;
-
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -210,11 +207,9 @@ public class Player : MonoBehaviour
 
     public void Respawn()
     {
-        scaleableEntities = FindObjectsByType<ScaleableEntity>(FindObjectsSortMode.None);
-
-        foreach (ScaleableEntity entity in scaleableEntities)
+        foreach (ScaleableEntity entity in ScaleableEntity.scaleableEntities)
         {
-            entity.Interact();
+            entity.ResetScale();
         }
 
         if (currentCheckpoint != null)

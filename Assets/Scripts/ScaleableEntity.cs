@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ScaleableEntity : MonoBehaviour
 {
+    public static List<ScaleableEntity> scaleableEntities = new List<ScaleableEntity>();
+
     public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green };
 
     [SerializeField] BoxCollider2D col;
@@ -43,6 +45,11 @@ public class ScaleableEntity : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        scaleableEntities.Add(this);
+    }
+
     private void Start()
     {
         lastScaleIndex = scales.Length - 1;
@@ -67,7 +74,7 @@ public class ScaleableEntity : MonoBehaviour
     {
         if (lerping)
         {
-            lerp += scaleSpeed * Time.deltaTime;
+            lerp += (scaleSpeed * Time.deltaTime) / Vector2.Distance(lastScale, scales[currentScaleIndex]);
             lerp = Mathf.Clamp01(lerp);
 
             currentScale = Vector2.Lerp(lastScale, scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
@@ -148,23 +155,23 @@ public class ScaleableEntity : MonoBehaviour
         }
         else
         {
+            if (currentScaleIndex == 0)
+            {
+                return;
+            }
+
             lastScale = scales[currentScaleIndex];
         }
+
+        lastScaleIndex = scales.Length - 1;
+        currentScaleIndex = 0;
 
         lerping = true;
 
         lerp = 0f;
 
-        lastScaleIndex = scales.Length - 1;
-        currentScaleIndex = 0;
-
-        if(lastScaleIndex == currentScaleIndex)
-        {
-            return;
-        }
-
-        handSprite.SetActive(true);
-        handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (lastScale.magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
+        handSprite.SetActive(false);
+        //handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (lastScale.magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
 
         //SoundManager.instance.PlaySound("Scale Up");
     }
