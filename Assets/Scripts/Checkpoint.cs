@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    [SerializeField] SpriteRenderer sr;
     [SerializeField] Animator anim;
 
     public enum StartDirection { Left, Right };
@@ -19,11 +20,25 @@ public class Checkpoint : MonoBehaviour
         {
             triggered = true;
 
+            if (Player.instance.xDirection == 1f)
+            {
+                sr.flipX = false;
+            }
+            else if (Player.instance.xDirection == -1f)
+            {
+                sr.flipX = true;
+            }
+
             Player.instance.SetCurrentCheckpoint(this);
 
             anim.SetBool("Hit", true);
 
             // Play checkpoint sound
         }
+    }
+
+    public void ResetSpriteFlipX()
+    {
+        sr.flipX = false;
     }
 }
