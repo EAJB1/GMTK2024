@@ -69,8 +69,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        clicked = false;
-
         if (selectPhase == InputActionPhase.Performed)
         {
             //clicked = true;
@@ -94,6 +92,11 @@ public class Player : MonoBehaviour
             StartPlayer();
             // display text: "Click to continue"
         }
+    }
+
+    private void LateUpdate()
+    {
+        clicked = false;
     }
 
     void FixedUpdate()

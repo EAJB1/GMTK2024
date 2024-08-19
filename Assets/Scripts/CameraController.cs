@@ -36,12 +36,12 @@ public class CameraController: MonoBehaviour
 
     void CameraFollow()
     {
-        Vector3 newPosition;
-
-        newPosition = cameraOffset + Player.instance.transform.position;
+        Vector3 newPosition = Player.instance.transform.position;
 
         if (currentBounds != null)
         {
+            newPosition += (Vector3)currentBounds.camOffset;
+
             if (currentBounds.lockY)
             {
                 newPosition.y = currentBounds.transform.position.y;
@@ -54,11 +54,13 @@ public class CameraController: MonoBehaviour
 
             cam.orthographicSize = currentBounds.cameraSize;
 
-            Lerp(newPosition, inBoundsLerp);
+            Lerp(newPosition, currentBounds.lockX ? inBoundsLerp : outBoundsLerp, currentBounds.lockY ? inBoundsLerp : outBoundsLerp);
             return;
         }
 
-        Lerp(newPosition, outBoundsLerp);
+        newPosition += cameraOffset;
+
+        Lerp(newPosition, outBoundsLerp, outBoundsLerp);
     }
 
     bool InBounds(Bounds currentBounds)
@@ -80,9 +82,11 @@ public class CameraController: MonoBehaviour
         }
     }
 
-    void Lerp(Vector3 pos, float lerp)
+    void Lerp(Vector3 pos, float lerpX, float lerpY)
     {
-        pos.z = cameraOffset.z;
-        transform.position = Vector3.Lerp(transform.position, pos, lerp * Time.deltaTime);
+        float x = Mathf.Lerp(transform.position.x, pos.x, lerpX * Time.deltaTime);
+        float y = Mathf.Lerp(transform.position.y, pos.y, lerpY * Time.deltaTime);
+
+        transform.position = new Vector3(x, y, cameraOffset.z);
     }
 }

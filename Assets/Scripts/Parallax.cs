@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-    public float parallaxFactor;
+    public Vector2 parallaxFactor;
 
     private Vector2 startOffset;
 
@@ -15,6 +15,6 @@ public class Parallax : MonoBehaviour
 
     private void Update()
     {
-        transform.position = (Vector2)(transform.parent.position * parallaxFactor) + startOffset;
+        transform.position = (transform.parent.position * parallaxFactor) + startOffset;
     }
 }

@@ -8,6 +8,11 @@ public class PlatformCollider : MonoBehaviour
     {
         if (collision.gameObject == Player.instance.gameObject)
         {
+            if(collision.transform.parent != null)
+            {
+                return;
+            }
+
             collision.transform.parent = transform;
         }
     }
@@ -16,6 +21,11 @@ public class PlatformCollider : MonoBehaviour
     {
         if (collision.gameObject == Player.instance.gameObject)
         {
+            if (collision.transform.parent != transform)
+            {
+                return;
+            }
+
             collision.transform.parent = null;
         }
     }

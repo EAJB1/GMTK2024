@@ -12,8 +12,12 @@ public class ScaleableEntity : MonoBehaviour
     [SerializeField] GameObject handSprite;
 
     private Vector2 colOffset, srOffset, contactOffset;
+
     private int lastScaleIndex;
+    private Vector2 lastScale;
+
     private int currentScaleIndex;
+    private Vector2 currentScale;
 
     public Vector2[] scales;
     public float scaleSpeed;
@@ -24,7 +28,7 @@ public class ScaleableEntity : MonoBehaviour
     bool lerping;
     float lerp = 1f;
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Vector2 offset = col.offset + 0.125f * Vector2.up;
         offset /= scales[0];
@@ -42,6 +46,8 @@ public class ScaleableEntity : MonoBehaviour
     private void Start()
     {
         lastScaleIndex = scales.Length - 1;
+        lastScale = scales[lastScaleIndex];
+
         colOffset = (col.offset + 0.125f * Vector2.up) / scales[0];
         srOffset = sr.transform.localPosition / scales[0];
         contactOffset = contact.localPosition / scales[0];
@@ -49,6 +55,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseOver()
     {
+        Debug.Log("Mouse over " + gameObject.name);
+
         if (Player.instance.PlayerClicked())
         {
             Interact();
@@ -62,11 +70,11 @@ public class ScaleableEntity : MonoBehaviour
             lerp += scaleSpeed * Time.deltaTime;
             lerp = Mathf.Clamp01(lerp);
 
-            Vector2 s = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
-            contact.localPosition = contactOffset * s;
+            currentScale = Vector2.Lerp(lastScale, scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
+            contact.localPosition = contactOffset * currentScale;
 
-            sr.size = s;
-            sr.transform.localPosition = srOffset * s;
+            sr.size = currentScale;
+            sr.transform.localPosition = srOffset * currentScale;
 
             if (lerp == 1f)
             {
@@ -78,10 +86,13 @@ public class ScaleableEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 s = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
+        //currentScale = Vector2.Lerp(lastScale, scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
 
-        col.size = s - 0.25f * Vector2.up;
-        col.offset = colOffset * s - 0.125f * Vector2.up;
+        if (lerping)
+        {
+            col.size = currentScale - 0.25f * Vector2.up;
+            col.offset = colOffset * currentScale - 0.125f * Vector2.up;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -102,6 +113,8 @@ public class ScaleableEntity : MonoBehaviour
 
     public void Interact()
     {
+        Debug.Log("Interacted with" + gameObject);
+
         if(lerping)
         {
             return;
@@ -112,6 +125,8 @@ public class ScaleableEntity : MonoBehaviour
         lerp = 0f;
 
         lastScaleIndex = currentScaleIndex;
+        lastScale = scales[lastScaleIndex];
+
         currentScaleIndex++;
 
         if(currentScaleIndex == scales.Length) //Instead of resetting scale, can we decrement to the last index, so it shrinks again on click instead of resetting at the end.
@@ -120,8 +135,37 @@ public class ScaleableEntity : MonoBehaviour
         }
 
         handSprite.SetActive(true);
-        handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (scales[lastScaleIndex].magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
+        handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (lastScale.magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
         
         SoundManager.instance.PlaySound("Scale Up");
+    }
+
+    public void ResetScale()
+    {
+        if (lerping)
+        {
+            lastScale = currentScale;
+        }
+        else
+        {
+            lastScale = scales[currentScaleIndex];
+        }
+
+        lerping = true;
+
+        lerp = 0f;
+
+        lastScaleIndex = scales.Length - 1;
+        currentScaleIndex = 0;
+
+        if(lastScaleIndex == currentScaleIndex)
+        {
+            return;
+        }
+
+        handSprite.SetActive(true);
+        handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (lastScale.magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
+
+        //SoundManager.instance.PlaySound("Scale Up");
     }
 }
