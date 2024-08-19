@@ -38,6 +38,9 @@ public class Player : MonoBehaviour
     InputActionPhase jumpPhase, selectPhase;
     bool midJump;
 
+    InputActionPhase pausePhase;
+    public bool gamePaused;
+
     Vector2 moveDirection = Vector2.right;
     bool isGrounded = true, canJump;
 
@@ -150,6 +153,16 @@ public class Player : MonoBehaviour
         {
             Cursor.SetCursor(closedCursor, Vector2.zero, CursorMode.Auto);
             StartCoroutine(CursorSelectWait());
+        }
+    }
+
+    public void Pause(InputAction.CallbackContext ctx)
+    {
+        pausePhase = ctx.phase;
+
+        if (pausePhase == InputActionPhase.Performed)
+        {
+            gamePaused = !gamePaused;
         }
     }
 
