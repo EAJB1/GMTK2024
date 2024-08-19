@@ -49,7 +49,7 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Player.instance.PlayerClicked())
         {
             Interact();
         }
