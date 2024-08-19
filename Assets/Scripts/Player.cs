@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
 {
     public static Player instance;
 
-    [SerializeField] Texture2D openCursor, closedCursor;
+    [SerializeField] Texture2D pointCursor, grabCursor;
+    [SerializeField] Vector2 cursorHotspot;
     [SerializeField] float cursorTextureTime;
 
     [Space]
@@ -22,7 +23,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] LayerMask groundLayer, wallLayer;
     [SerializeField] Vector2 groundCheckSize, shieldCheckSize;
-    [SerializeField] float xDirection, moveSpeed;
+    public float xDirection;
+    [SerializeField] float moveSpeed;
     float previousXDirection;
     [SerializeField] float jumpHeight, upGravity, downGravity;
     [SerializeField] float coyoteTime;
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        Cursor.SetCursor(pointCursor, cursorHotspot, CursorMode.Auto);
         anim.SetBool("Running", true);
     }
 
@@ -70,7 +73,7 @@ public class Player : MonoBehaviour
 
         if (selectPhase == InputActionPhase.Performed)
         {
-            clicked = true;
+            //clicked = true;
         }
 
         if (jumpPhase == InputActionPhase.Performed)
@@ -167,7 +170,8 @@ public class Player : MonoBehaviour
 
         if (selectPhase == InputActionPhase.Performed)
         {
-            Cursor.SetCursor(closedCursor, Vector2.zero, CursorMode.Auto);
+            clicked = true;
+            Cursor.SetCursor(grabCursor, cursorHotspot, CursorMode.Auto);
             StartCoroutine(CursorSelectWait());
         }
     }
@@ -190,7 +194,7 @@ public class Player : MonoBehaviour
     IEnumerator CursorSelectWait()
     {
         yield return new WaitForSeconds(cursorTextureTime);
-        Cursor.SetCursor(openCursor, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(pointCursor, cursorHotspot, CursorMode.Auto);
     }
 
     void FlipDirection()
