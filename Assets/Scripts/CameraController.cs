@@ -42,9 +42,17 @@ public class CameraController: MonoBehaviour
 
         if (currentBounds != null)
         {
-            Lerp(currentBounds.transform.position);
+            if (currentBounds.followX)
+            {
+                newPosition.y = currentBounds.transform.position.y;
+            }
+
+            if (currentBounds.followY)
+            {
+                newPosition.x = currentBounds.transform.position.x;
+            }
+
             cam.orthographicSize = currentBounds.cameraSize;
-            return;
         }
 
         Lerp(newPosition);
@@ -52,14 +60,14 @@ public class CameraController: MonoBehaviour
 
     bool InBounds(Bounds currentBounds)
     {
-        Vector3 bounds = currentBounds.transform.localScale;
+        Vector3 boundsPosition = currentBounds.transform.localScale;
 
         Vector2 distance = currentBounds.transform.position - Player.instance.transform.position;
 
-        if (distance.x <= bounds.x / 2f &&
-            distance.x >= -bounds.x / 2f &&
-            distance.y <= bounds.y / 2f &&
-            distance.y >= -bounds.y / 2f)
+        if (distance.x <= boundsPosition.x / 2f &&
+            distance.x >= -boundsPosition.x / 2f &&
+            distance.y <= boundsPosition.y / 2f &&
+            distance.y >= -boundsPosition.y / 2f)
         {
             return true;
         }
