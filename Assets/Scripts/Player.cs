@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     [Space]
 
-    [SerializeField] LayerMask groundLayer;
+    [SerializeField] LayerMask groundLayer, wallLayer;
     [SerializeField] Vector2 groundCheckSize, shieldCheckSize;
     [SerializeField] float xDirection, moveSpeed;
     float previousXDirection;
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(Physics2D.OverlapBox(new Vector2(transform.position.x + xDirection * shield.localPosition.x, shield.position.y), shieldCheckSize, 0f, groundLayer))
+        if(Physics2D.OverlapBox(new Vector2(transform.position.x + xDirection * shield.localPosition.x, shield.position.y), shieldCheckSize, 0f, wallLayer))
         {
             SoundManager.instance.PlaySound("Shield Hit");
 

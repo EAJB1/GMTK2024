@@ -42,12 +42,12 @@ public class CameraController: MonoBehaviour
 
         if (currentBounds != null)
         {
-            if (currentBounds.followX)
+            if (currentBounds.lockY)
             {
                 newPosition.y = currentBounds.transform.position.y;
             }
 
-            if (currentBounds.followY)
+            if (currentBounds.lockX)
             {
                 newPosition.x = currentBounds.transform.position.x;
             }

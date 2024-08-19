@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bounds : MonoBehaviour
 {
     public float cameraSize;
-    public bool followX, followY;
+    public bool lockY, lockX;
 
     private void OnDrawGizmos()
     {

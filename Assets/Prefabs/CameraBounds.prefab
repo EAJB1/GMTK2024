@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSize: 5
-  followX: 1
-  followY: 1
+  lockX: 1
+  lockY: 1
