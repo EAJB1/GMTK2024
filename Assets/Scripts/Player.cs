@@ -95,6 +95,11 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(transform.parent != null)
+        {
+            Debug.Log(transform.parent);
+        }
+
         if(Physics2D.OverlapBox(new Vector2(transform.position.x + xDirection * shield.localPosition.x, shield.position.y), shieldCheckSize, 0f, wallLayer))
         {
             SoundManager.instance.PlaySound("Shield Hit");

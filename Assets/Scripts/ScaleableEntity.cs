@@ -26,8 +26,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Vector2 offset = col.offset;
-        offset /= col.size;
+        Vector2 offset = col.offset + 0.125f * Vector2.up;
+        offset /= scales[0];
 
         for (int i = 0; i < scales.Length; i++)
         {
@@ -42,7 +42,7 @@ public class ScaleableEntity : MonoBehaviour
     private void Start()
     {
         lastScaleIndex = scales.Length - 1;
-        colOffset = col.offset / scales[0];
+        colOffset = (col.offset + 0.125f * Vector2.up) / scales[0];
         srOffset = sr.transform.localPosition / scales[0];
         contactOffset = contact.localPosition / scales[0];
     }
@@ -80,11 +80,11 @@ public class ScaleableEntity : MonoBehaviour
     {
         Vector2 s = Vector2.Lerp(scales[lastScaleIndex], scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
 
-        col.size = s;
-        col.offset = colOffset * s;
+        col.size = s - 0.25f * Vector2.up;
+        col.offset = colOffset * s - 0.125f * Vector2.up;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (parentsPlayer && collision.gameObject == Player.instance.gameObject)
         {
