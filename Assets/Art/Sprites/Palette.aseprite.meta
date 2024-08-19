@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 129816993a0361c49a70eca90c230242
+guid: 95bfe8d0428dd7e41a1ca7ea3c12ebee
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -118,47 +118,19 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  animatedSpriteImportData:
-  - name: GoldPalette
-    originalName: 
-    pivot: {x: 0.375, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 4
-      height: 1
-    spriteID: af3664058e5f747448cd42ee49c24f79
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 3, y: 4}
+  animatedSpriteImportData: []
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 734428357
-    name: GoldPalette
+    guid: -217885283
+    name: Palette
     layerFlags: 0
     layerType: 0
     blendMode: 0
-    cells:
-    - name: GoldPalette
-      frameIndex: 0
-      cellRect:
-        x: 0
-        y: 0
-        width: 5
-        height: 1
-      spriteId: af3664058e5f747448cd42ee49c24f79
+    cells: []
     linkedCells: []
     parentIndex: -1
   platformSettings: []
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 5, y: 1}
+  canvasSize: {x: 16, y: 3}
