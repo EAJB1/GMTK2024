@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] Animator anim;
     [SerializeField] Transform feet, shield;
     [SerializeField] Rigidbody2D rb;
+    public PlayerControls playerControls;
 
     [Space]
 
@@ -36,7 +37,7 @@ public class Player : MonoBehaviour
     bool waitingForInput;
 
     InputActionPhase jumpPhase, selectPhase;
-    bool midJump;
+    bool midJump, clicked;
 
     InputActionPhase pausePhase;
     public bool gamePaused;
@@ -66,6 +67,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        clicked = false;
+
+        if (selectPhase == InputActionPhase.Performed)
+        {
+            clicked = true;
+        }
+
         if (jumpPhase == InputActionPhase.Performed)
         {
             jumpBufferCounter = jumpBufferTime;
@@ -154,6 +162,11 @@ public class Player : MonoBehaviour
             Cursor.SetCursor(closedCursor, Vector2.zero, CursorMode.Auto);
             StartCoroutine(CursorSelectWait());
         }
+    }
+
+    public bool PlayerClicked()
+    {
+        return clicked;
     }
 
     public void Pause(InputAction.CallbackContext ctx)
