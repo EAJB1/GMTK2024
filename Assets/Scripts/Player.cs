@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     Vector2 moveDirection = Vector2.right;
     bool isGrounded = true, canJump;
 
+    ScaleableEntity[] scaleableEntities;
+
 
     private void OnDrawGizmosSelected()
     {
@@ -208,6 +210,13 @@ public class Player : MonoBehaviour
 
     public void Respawn()
     {
+        scaleableEntities = FindObjectsByType<ScaleableEntity>(FindObjectsSortMode.None);
+
+        foreach (ScaleableEntity entity in scaleableEntities)
+        {
+            entity.Interact();
+        }
+
         if (currentCheckpoint != null)
         {
             transform.position = currentCheckpoint.transform.position;
