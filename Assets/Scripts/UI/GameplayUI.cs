@@ -39,20 +39,12 @@ public class GameplayUI : MonoBehaviour
     void Pause()
     {
         Time.timeScale = 0f;
-
-        Player.instance.playerControls.Player.Disable();
-        Player.instance.playerControls.UI.Enable();
-
         pause.SetActive(true);
     }
 
     IEnumerator SlowUnpause()
     {
         Time.timeScale = pauseCurve.Evaluate(time);
-
-        Player.instance.playerControls.Player.Enable();
-        Player.instance.playerControls.UI.Disable();
-
         pause.SetActive(false);
         yield return new WaitForSeconds(unpauseDuration);
     }
