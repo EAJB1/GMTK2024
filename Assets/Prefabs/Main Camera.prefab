@@ -152,4 +152,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 3195287388090175373}
   cameraOffset: {x: 0, y: 1, z: -10}
-  lerp: 3
+  inBoundsLerp: 2.5
+  outBoundsLerp: 6

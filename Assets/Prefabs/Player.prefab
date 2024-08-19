@@ -306,10 +306,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 99bc15d0-0ac3-41ca-8b91-56191969fd08
     m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c0938fbd-cb94-44a7-98dc-09f7f44d71c4
-    m_ActionName: UI/Resume
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -389,8 +385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7ffbffe4670844b9d3c19a3e2ba5e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openCursor: {fileID: 2800000, guid: 3c0d6240d5bfa004da670f6d0218c466, type: 3}
-  closedCursor: {fileID: 2800000, guid: d022406e3afd2ff4c88003c35f8e9824, type: 3}
+  pointCursor: {fileID: 2800000, guid: 3b9779e3f17c43b42afac7cfe9e423e0, type: 3}
+  grabCursor: {fileID: 2800000, guid: 9e2eab95945beca4596eec4642eb26bf, type: 3}
+  cursorHotspot: {x: 10, y: 2}
   cursorTextureTime: 0.1
   sr: {fileID: 1523547821197900995}
   anim: {fileID: 8565831755087571608}
