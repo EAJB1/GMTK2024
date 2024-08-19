@@ -393,7 +393,6 @@ MonoBehaviour:
   feet: {fileID: 1475648273822089186}
   shield: {fileID: 4047007615210206070}
   rb: {fileID: 6246842682872840727}
-  playerInput: {fileID: 6098046529699321231}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128

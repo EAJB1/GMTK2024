@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     [SerializeField] Animator anim;
     [SerializeField] Transform feet, shield;
     [SerializeField] Rigidbody2D rb;
-    public PlayerControls playerControls;
 
     [Space]
 
@@ -39,7 +38,7 @@ public class Player : MonoBehaviour
     InputActionPhase jumpPhase, selectPhase;
     bool midJump, clicked;
 
-    InputActionPhase pausePhase;
+    InputActionPhase pausePhase, resumePhase;
     public bool gamePaused;
 
     Vector2 moveDirection = Vector2.right;
@@ -150,11 +149,15 @@ public class Player : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext ctx)
     {
+        if (gamePaused) return;
+
         jumpPhase = ctx.phase;
     }
 
     public void Select(InputAction.CallbackContext ctx)
     {
+        if (gamePaused) return;
+
         selectPhase = ctx.phase;
 
         if (selectPhase == InputActionPhase.Performed)
