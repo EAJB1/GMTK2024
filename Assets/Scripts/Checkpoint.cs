@@ -15,7 +15,7 @@ public class Checkpoint : MonoBehaviour
     bool triggered;
 
     public int checkpointCheatNumber;
-    KeyCode[] cheatKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
+    KeyCode[] cheatKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
     private void Update()
     {

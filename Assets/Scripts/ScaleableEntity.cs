@@ -8,7 +8,7 @@ public class ScaleableEntity : MonoBehaviour
 {
     public static List<ScaleableEntity> scaleableEntities = new List<ScaleableEntity>();
 
-    public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green, Color.black };
+    public static Color[] gizmoColors = { Color.black, Color.red, Color.blue, Color.green, Color.cyan, Color.yellow, Color.magenta, Color.white };
 
     [SerializeField] BoxCollider2D col;
     [SerializeField] SpriteRenderer sr, indicator, indicatorBG;
@@ -41,7 +41,7 @@ public class ScaleableEntity : MonoBehaviour
         for (int i = 0; i < scales.Length; i++)
         {
             Color c = gizmoColors[Mathf.Clamp(i, 0, gizmoColors.Length)];
-            c.a = 0.5f;
+            c.a = 0.2f;
             Gizmos.color = c;
 
             Gizmos.DrawCube((Vector2)transform.position + (Vector2)transform.TransformVector((offset * scales[i])), transform.TransformVector(scales[i]));
