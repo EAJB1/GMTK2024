@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &227666883502645025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4428983946572143416}
+  - component: {fileID: 5085919454277991848}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4428983946572143416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227666883502645025}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5085919454277991848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227666883502645025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbecd95de4b940448a63b873d4407603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+  sounds:
+  - name: Music
+    clip: {fileID: 8300000, guid: 55a68c68bfb122149a17a6a0a400a105, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 4218569021331484008, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 1
+    volume: 0.1
+    pitchVariation: 0
+  - name: Jump
+    clip: {fileID: 8300000, guid: 2cab81c8252825646bb7aacc1fa49b28, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.15
+    pitchVariation: 0.05
+  - name: Step
+    clip: {fileID: 8300000, guid: b8d1b2914c46a174d947fcb8471b346a, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.1
+    pitchVariation: 0.05
+  - name: Scale Up
+    clip: {fileID: 8300000, guid: d3dc81c01d4b5204bbff487a770a9fff, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.1
+    pitchVariation: 0.05
+  - name: Land
+    clip: {fileID: 8300000, guid: 26bfed484c1e791469e8ad1ddc57cd76, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.15
+    pitchVariation: 0.05
+  - name: Shield Hit
+    clip: {fileID: 8300000, guid: 72ae14652711f3344ae92fe138186184, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.2
+    pitchVariation: 0.05
+  - name: Coin
+    clip: {fileID: 8300000, guid: 19c2567d69f42d54cad2e2ee9e46c991, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.15
+    pitchVariation: 0.05
+  - name: Checkpoint
+    clip: {fileID: 8300000, guid: 2a6ae38ad6b1d2b4fbd18e83bdeb6fa6, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.2
+    pitchVariation: 0
+  - name: Die
+    clip: {fileID: 8300000, guid: 8703c9cb3323a9f43a5d4659656f6bac, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.225
+    pitchVariation: 0
+  - name: Respawn
+    clip: {fileID: 8300000, guid: e9ff76cdda8abf54ca885e7a9ce8107d, type: 3}
+    source: {fileID: 0}
+    mixerGroup: {fileID: 5823009900002725557, guid: 7d353551fa0045a41bb14485e77c0ffe, type: 2}
+    loop: 0
+    volume: 0.125
+    pitchVariation: 0
+  blacklistClearCooldown: 0.05

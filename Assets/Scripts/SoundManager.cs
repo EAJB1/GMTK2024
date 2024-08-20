@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+
+    public AudioMixer audioMixer;
 
     public Sound[] sounds;
     public float blacklistClearCooldown;
@@ -20,6 +23,7 @@ public class SoundManager : MonoBehaviour
             s.source = gameObject.AddComponent<AudioSource>();
             
             s.source.clip = s.clip;
+            s.source.outputAudioMixerGroup = s.mixerGroup;
 
             s.source.loop = s.loop;
             s.source.volume = s.volume;
