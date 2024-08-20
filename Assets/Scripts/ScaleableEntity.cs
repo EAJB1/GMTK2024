@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ScaleableEntity : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class ScaleableEntity : MonoBehaviour
     [SerializeField] SpriteRenderer sr, indicator, indicatorBG;
     [SerializeField] Transform contact;
     [SerializeField] GameObject handSprite;
+    [SerializeField] TextMeshProUGUI counterText;
 
     private Vector2 colOffset, srOffset, contactOffset;
 
@@ -58,6 +61,9 @@ public class ScaleableEntity : MonoBehaviour
         colOffset = (col.offset + 0.125f * Vector2.up) / scales[0];
         srOffset = sr.transform.localPosition / scales[0];
         contactOffset = contact.localPosition / scales[0];
+
+        counterText.text = (currentScaleIndex + 1).ToString() + "/" + scales.Length;
+        counterText.transform.rotation = Quaternion.identity;
 
         UpdateIndicator();
     }
@@ -181,9 +187,11 @@ public class ScaleableEntity : MonoBehaviour
             currentScaleIndex = 0;
         }
 
+        counterText.text = (currentScaleIndex + 1).ToString() + "/" + scales.Length;
+
         handSprite.SetActive(true);
         handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (lastScale.magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
-        
+
         SoundManager.instance.PlaySound("Scale Up");
     }
 
@@ -209,6 +217,8 @@ public class ScaleableEntity : MonoBehaviour
         lerping = true;
 
         lerp = 0f;
+
+        counterText.text = (currentScaleIndex + 1).ToString() + "/" + scales.Length;
 
         handSprite.SetActive(false);
 

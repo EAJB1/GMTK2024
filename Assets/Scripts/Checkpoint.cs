@@ -14,6 +14,18 @@ public class Checkpoint : MonoBehaviour
 
     bool triggered;
 
+    public int checkpointCheatNumber;
+    KeyCode[] cheatKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(cheatKeys[checkpointCheatNumber]))
+        {
+            Player.instance.SetCurrentCheckpoint(this);
+            Player.instance.Die();
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!triggered && collision.gameObject == Player.instance.gameObject)
