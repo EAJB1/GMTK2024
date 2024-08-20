@@ -205,8 +205,26 @@ public class Player : MonoBehaviour
         sr.flipX = !sr.flipX;
     }
 
+    public void Die()
+    {
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+
+        SoundManager.instance.PlaySound("Die");
+
+        anim.SetBool("Falling", false);
+        anim.SetBool("Jumping", false);
+
+        anim.SetTrigger("Die");
+
+        enabled = false;
+    }
+
     public void Respawn()
     {
+        enabled = true;
+
+        SoundManager.instance.PlaySound("Respawn");
+
         foreach (ScaleableEntity entity in ScaleableEntity.scaleableEntities)
         {
             entity.ResetScale();

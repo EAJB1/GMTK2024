@@ -8,7 +8,7 @@ public class Hazard : MonoBehaviour
     {
         if(collision.gameObject == Player.instance.gameObject)
         {
-            Player.instance.Respawn();
+            Player.instance.Die();
         }
     }
 }
