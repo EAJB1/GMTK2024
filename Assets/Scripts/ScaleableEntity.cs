@@ -6,7 +6,7 @@ public class ScaleableEntity : MonoBehaviour
 {
     public static List<ScaleableEntity> scaleableEntities = new List<ScaleableEntity>();
 
-    public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green };
+    public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green, Color.black };
 
     [SerializeField] BoxCollider2D col;
     [SerializeField] SpriteRenderer sr, indicator, indicatorBG;
@@ -22,12 +22,12 @@ public class ScaleableEntity : MonoBehaviour
     private Vector2 currentScale;
 
     public Vector2[] scales;
-    public float scaleSpeed;
+    public float scaleSpeed, resetSpeed;
     public AnimationCurve scaleCurve;
 
     [SerializeField] bool parentsPlayer;
 
-    bool lerping;
+    bool lerping, resetting;
     float lerp = 1f;
 
     private void OnDrawGizmos()
@@ -86,7 +86,7 @@ public class ScaleableEntity : MonoBehaviour
     {
         if (lerping)
         {
-            lerp += (scaleSpeed * Time.deltaTime) / Vector2.Distance(lastScale, scales[currentScaleIndex]);
+            lerp += ((resetting ? resetSpeed : scaleSpeed) * Time.deltaTime) / Vector2.Distance(lastScale, scales[currentScaleIndex]);
             lerp = Mathf.Clamp01(lerp);
 
             currentScale = Vector2.Lerp(lastScale, scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
@@ -97,7 +97,11 @@ public class ScaleableEntity : MonoBehaviour
 
             if (lerp == 1f)
             {
+                UpdateCol();
+
                 lerping = false;
+                resetting = false;
+
                 handSprite.SetActive(false);
 
                 UpdateIndicator();
@@ -111,8 +115,7 @@ public class ScaleableEntity : MonoBehaviour
 
         if (lerping)
         {
-            col.size = currentScale - 0.25f * Vector2.up;
-            col.offset = colOffset * currentScale - 0.125f * Vector2.up;
+            UpdateCol();
         }
     }
 
@@ -130,6 +133,12 @@ public class ScaleableEntity : MonoBehaviour
         {
             collision.transform.parent = null;
         }
+    }
+
+    private void UpdateCol()
+    {
+        col.size = currentScale - 0.25f * Vector2.up;
+        col.offset = colOffset * currentScale - 0.125f * Vector2.up;
     }
 
     private void UpdateIndicator()
@@ -202,8 +211,7 @@ public class ScaleableEntity : MonoBehaviour
         lerp = 0f;
 
         handSprite.SetActive(false);
-        //handSprite.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + (lastScale.magnitude < scales[currentScaleIndex].magnitude ? 180f : 0f) * Vector3.forward);
 
-        //SoundManager.instance.PlaySound("Scale Up");
+        resetting = true;
     }
 }

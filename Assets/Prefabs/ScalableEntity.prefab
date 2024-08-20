@@ -137,6 +137,7 @@ MonoBehaviour:
   - {x: 2, y: 1}
   - {x: 2, y: 5}
   scaleSpeed: 10
+  resetSpeed: 25
   scaleCurve:
     serializedVersion: 2
     m_Curve:

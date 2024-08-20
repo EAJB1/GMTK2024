@@ -6,7 +6,7 @@ public class CameraController: MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] Vector3 cameraOffset;
-    [SerializeField] float inBoundsLerp, outBoundsLerp;
+    [SerializeField] float inBoundsLerp, outBoundsLerp, camSizeLerp;
 
     Bounds[] allBounds;
     Bounds currentBounds;
@@ -40,8 +40,6 @@ public class CameraController: MonoBehaviour
 
         if (currentBounds != null)
         {
-            newPosition += (Vector3)currentBounds.camOffset;
-
             if (currentBounds.lockY)
             {
                 newPosition.y = currentBounds.transform.position.y;
@@ -52,7 +50,16 @@ public class CameraController: MonoBehaviour
                 newPosition.x = currentBounds.transform.position.x;
             }
 
-            cam.orthographicSize = currentBounds.cameraSize;
+            newPosition += (Vector3)currentBounds.camOffset;
+
+            if(Mathf.Abs(cam.orthographicSize - currentBounds.cameraSize) <= 0.05f)
+            {
+                cam.orthographicSize = currentBounds.cameraSize;
+            }
+            else
+            {
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, currentBounds.cameraSize, camSizeLerp * Time.deltaTime);
+            }
 
             Lerp(newPosition, currentBounds.lockX ? inBoundsLerp : outBoundsLerp, currentBounds.lockY ? inBoundsLerp : outBoundsLerp);
             return;
