@@ -235,11 +235,16 @@ public class Player : MonoBehaviour
             transform.position = currentCheckpoint.transform.position;
 
             if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Left &&
-                xDirection == Mathf.Abs(xDirection) ||
-                currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
-                xDirection == -Mathf.Abs(xDirection))
+                xDirection != -1f)
             {
-                FlipDirection();
+                xDirection = -1f;
+                sr.flipX = true;
+            }
+            else if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
+                xDirection != 1f)
+            {
+                xDirection = 1f;
+                sr.flipX = false;
             }
 
             if (currentCheckpoint.startStationary)
