@@ -9,7 +9,7 @@ public class ScaleableEntity : MonoBehaviour
     public static Color[] gizmoColors = { Color.white, Color.red, Color.blue, Color.green };
 
     [SerializeField] BoxCollider2D col;
-    [SerializeField] SpriteRenderer sr;
+    [SerializeField] SpriteRenderer sr, indicator, indicatorBG;
     [SerializeField] Transform contact;
     [SerializeField] GameObject handSprite;
 
@@ -58,6 +58,8 @@ public class ScaleableEntity : MonoBehaviour
         colOffset = (col.offset + 0.125f * Vector2.up) / scales[0];
         srOffset = sr.transform.localPosition / scales[0];
         contactOffset = contact.localPosition / scales[0];
+
+        UpdateIndicator();
     }
 
     private void OnMouseOver()
@@ -68,6 +70,16 @@ public class ScaleableEntity : MonoBehaviour
         {
             Interact();
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        indicator.gameObject.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        indicator.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -87,6 +99,8 @@ public class ScaleableEntity : MonoBehaviour
             {
                 lerping = false;
                 handSprite.SetActive(false);
+
+                UpdateIndicator();
             }
         }
     }
@@ -116,6 +130,23 @@ public class ScaleableEntity : MonoBehaviour
         {
             collision.transform.parent = null;
         }
+    }
+
+    private void UpdateIndicator()
+    {
+        int i = currentScaleIndex + 1;
+
+        if(i == scales.Length)
+        {
+            i = 0;
+        }
+
+        Vector2 nextScale = scales[i];
+
+        indicator.size = nextScale;
+        indicator.transform.localPosition = srOffset * nextScale;
+
+        indicatorBG.size = nextScale;
     }
 
     public void Interact()
