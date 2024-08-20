@@ -121,6 +121,11 @@ public class GameplayUI : MonoBehaviour
         if (Player.instance.HasPlayerClicked())
         {
             Debug.Log("Clicked");
+            if(currentLine == null)
+            {
+                return;
+            }
+
             currentLine.gameObject.SetActive(false);
 
             currentLineIndex++;
