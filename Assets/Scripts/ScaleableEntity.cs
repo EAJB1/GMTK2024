@@ -70,7 +70,9 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseOver()
     {
-        Debug.Log("Mouse over " + gameObject.name);
+        if (Player.instance.gamePaused) return;
+        
+        //Debug.Log("Mouse over " + gameObject.name);
 
         if (Player.instance.PlayerClicked())
         {
@@ -80,11 +82,15 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (Player.instance.gamePaused) return;
+
         indicator.gameObject.SetActive(true);
     }
 
     private void OnMouseExit()
     {
+        if (Player.instance.gamePaused) return;
+
         indicator.gameObject.SetActive(false);
     }
 
