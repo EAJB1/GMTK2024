@@ -11,6 +11,7 @@ public class TriggerCutscene : MonoBehaviour
         if (collision.gameObject == Player.instance.gameObject)
         {
             Player.instance.inCutscene = true;
+            Player.instance.StopPlayer();
             godCutscenes.canMove = true;
             Destroy(gameObject);
         }

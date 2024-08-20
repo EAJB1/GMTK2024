@@ -303,7 +303,7 @@ public class Player : MonoBehaviour
         SoundManager.instance.PlaySound("Step");
     }
 
-    void StopPlayer()
+    public void StopPlayer()
     {
         previousXDirection = xDirection;
         xDirection = 0f;
