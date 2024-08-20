@@ -19,11 +19,11 @@ public class Checkpoint : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(cheatKeys[checkpointCheatNumber]))
+        /*if (Input.GetKeyDown(cheatKeys[checkpointCheatNumber]))
         {
             Player.instance.SetCurrentCheckpoint(this);
             Player.instance.Die();
-        }
+        }*/
     }
 
     void OnTriggerEnter2D(Collider2D collision)
