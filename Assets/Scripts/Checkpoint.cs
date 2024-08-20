@@ -45,8 +45,6 @@ public class Checkpoint : MonoBehaviour
 
             anim.SetBool("Hit", true);
 
-            // Play checkpoint sound
-
             SoundManager.instance.PlaySound("Checkpoint");
         }
     }

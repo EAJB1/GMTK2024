@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ScaleableEntity : MonoBehaviour
@@ -71,10 +70,8 @@ public class ScaleableEntity : MonoBehaviour
     private void OnMouseOver()
     {
         if (Player.instance.gamePaused) return;
-        
-        //Debug.Log("Mouse over " + gameObject.name);
 
-        if (Player.instance.PlayerClicked())
+        if (Player.instance.HasPlayerClicked())
         {
             Interact();
         }
@@ -123,8 +120,6 @@ public class ScaleableEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //currentScale = Vector2.Lerp(lastScale, scales[currentScaleIndex], scaleCurve.Evaluate(lerp));
-
         if (lerping)
         {
             UpdateCol();
@@ -188,7 +183,7 @@ public class ScaleableEntity : MonoBehaviour
 
         currentScaleIndex++;
 
-        if(currentScaleIndex == scales.Length) //Instead of resetting scale, can we decrement to the last index, so it shrinks again on click instead of resetting at the end.
+        if(currentScaleIndex == scales.Length)
         {
             currentScaleIndex = 0;
         }

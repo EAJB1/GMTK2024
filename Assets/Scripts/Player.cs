@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -34,6 +35,10 @@ public class Player : MonoBehaviour
 
     [Space]
 
+    public bool inCutscene;
+
+    [Space]
+
     [SerializeField] Checkpoint currentCheckpoint;
     bool waitingForInput;
 
@@ -58,19 +63,56 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        //StartCoroutine(WaitToStopPlayer());
     }
 
     private void Start()
     {
         Cursor.SetCursor(pointCursor, cursorHotspot, CursorMode.Auto);
+
         anim.SetBool("Running", true);
+
+    }
+
+    IEnumerator WaitToStopPlayer()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (currentCheckpoint != null)
+        {
+            if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Left &&
+                xDirection != -1f)
+            {
+                xDirection = -1f;
+                sr.flipX = true;
+            }
+            else if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
+                xDirection != 1f)
+            {
+                xDirection = 1f;
+                sr.flipX = false;
+            }
+
+            if (currentCheckpoint.startStationary)
+            {
+                StopPlayer();
+            }
+        }
     }
 
     private void Update()
     {
-        if (selectPhase == InputActionPhase.Performed)
+        if (inCutscene)
         {
-            //clicked = true;
+            return;
+        }
+
+        if (waitingForInput && selectPhase == InputActionPhase.Performed ||
+            waitingForInput && jumpPhase == InputActionPhase.Performed)
+        {
+            StartPlayer();
+            // display text: "Click to continue"
         }
 
         if (jumpPhase == InputActionPhase.Performed)
@@ -83,13 +125,6 @@ public class Player : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
             jumpBufferCounter = Mathf.Clamp(jumpBufferCounter, 0f, jumpBufferTime);
-        }
-
-        if (waitingForInput && selectPhase == InputActionPhase.Performed ||
-            waitingForInput && jumpPhase == InputActionPhase.Performed)
-        {
-            StartPlayer();
-            // display text: "Click to continue"
         }
     }
 
@@ -159,7 +194,7 @@ public class Player : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (gamePaused) return;
+        if (gamePaused || inCutscene) return;
 
         jumpPhase = ctx.phase;
     }
@@ -178,7 +213,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool PlayerClicked()
+    public bool HasPlayerClicked()
     {
         return clicked;
     }
