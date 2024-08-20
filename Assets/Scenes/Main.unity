@@ -1427,7 +1427,7 @@ MonoBehaviour:
   - name: Music
     clip: {fileID: 8300000, guid: 55a68c68bfb122149a17a6a0a400a105, type: 3}
     source: {fileID: 0}
-    loop: 1
+    loop: 0
     volume: 0.1
     pitchVariation: 0
   - name: Jump
@@ -31272,11 +31272,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 104437864295211589, guid: e856df04bff28d346859ceb98504dfcd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 104437864295211589, guid: e856df04bff28d346859ceb98504dfcd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 48
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 104437864295211589, guid: e856df04bff28d346859ceb98504dfcd, type: 3}
       propertyPath: m_LocalPosition.z
