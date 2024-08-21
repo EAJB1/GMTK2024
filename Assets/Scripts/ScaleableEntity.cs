@@ -69,6 +69,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseOver()
     {
+        if (Player.instance == null) return;
+
         if (Player.instance.gamePaused) return;
 
         if (Player.instance.HasPlayerClicked())
@@ -79,6 +81,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (Player.instance == null) return;
+
         if (Player.instance.gamePaused) return;
 
         indicator.gameObject.SetActive(true);
@@ -86,6 +90,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnMouseExit()
     {
+        if (Player.instance == null) return;
+
         if (Player.instance.gamePaused) return;
 
         indicator.gameObject.SetActive(false);
@@ -128,6 +134,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        if (Player.instance  == null) return;
+
         if (parentsPlayer && collision.gameObject == Player.instance.gameObject)
         {
             collision.transform.parent = contact;
@@ -136,6 +144,8 @@ public class ScaleableEntity : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        if (Player.instance  == null) return;
+
         if (parentsPlayer && collision.gameObject == Player.instance.gameObject)
         {
             collision.transform.parent = null;

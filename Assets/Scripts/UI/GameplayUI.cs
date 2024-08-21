@@ -71,8 +71,6 @@ public class GameplayUI : MonoBehaviour
         
         if (isIntro)
         {
-            Debug.Log("Intro Cutscene");
-
             intro.SetActive(true);
 
             foreach (TextMeshProUGUI line in introLines)
@@ -88,8 +86,6 @@ public class GameplayUI : MonoBehaviour
 
             return;
         }
-
-        Debug.Log("End Game Cutscene");
 
         end.SetActive(true);
 

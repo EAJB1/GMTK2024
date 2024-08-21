@@ -25,23 +25,6 @@ public class CameraController: MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (currentBounds == null || !InBounds(currentBounds))
-        {
-            foreach (Bounds b in allBounds)
-            {
-                if (InBounds(b))
-                {
-                    currentBounds = b;
-                    return;
-                }
-            }
-
-            currentBounds = null;
-        }
-    }
-
     void LateUpdate()
     {
         CameraFollow();
@@ -49,7 +32,20 @@ public class CameraController: MonoBehaviour
 
     void CameraFollow()
     {
-        Vector3 newPosition = Player.instance.transform.position;
+        Vector3 newPosition = Player.instance == null ? transform.position : Player.instance.transform.position;
+        
+        if (currentBounds == null || !InBounds(currentBounds, newPosition))
+        {
+            currentBounds = null;
+
+            foreach (Bounds b in allBounds)
+            {
+                if (InBounds(b, newPosition))
+                {
+                    currentBounds = b;
+                }
+            }
+        }
 
         float targetSize = 5f;
 
@@ -100,11 +96,11 @@ public class CameraController: MonoBehaviour
         }
     }
 
-    bool InBounds(Bounds currentBounds)
+    bool InBounds(Bounds currentBounds, Vector2 newPosition)
     {
         Vector3 boundsPosition = currentBounds.transform.localScale;
 
-        Vector2 distance = currentBounds.transform.position - Player.instance.transform.position;
+        Vector2 distance = (Vector2)currentBounds.transform.position - newPosition;
 
         if (distance.x <= boundsPosition.x / 2f &&
             distance.x >= -boundsPosition.x / 2f &&

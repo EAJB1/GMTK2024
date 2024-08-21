@@ -69,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameplayUI: {fileID: 0}
   endPosition: {x: -7, y: 2.5, z: 0}
-  lerp: 0.005
+  lerp: 1
   canMove: 0
   isIntro: 0
 --- !u!1 &8472831196262726668

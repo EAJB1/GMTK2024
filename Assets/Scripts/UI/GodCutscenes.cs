@@ -39,6 +39,6 @@ public class GodCutscenes : MonoBehaviour
 
     void MoveGod(Vector2 position)
     {
-        transform.position = Vector3.Lerp(transform.position, position, lerp);
+        transform.position = Vector3.Lerp(transform.position, position, lerp * Time.deltaTime);
     }
 }
