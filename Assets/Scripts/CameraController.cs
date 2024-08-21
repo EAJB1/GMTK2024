@@ -10,10 +10,19 @@ public class CameraController: MonoBehaviour
 
     Bounds[] allBounds;
     Bounds currentBounds;
+    float camSize = 5f;
 
     private void Awake()
     {
         allBounds = FindObjectsByType<Bounds>(FindObjectsSortMode.None);
+
+        float r = (float)Screen.width / (float)Screen.height;
+        float defaultR = 16f / 9f;
+
+        if (r < defaultR)
+        {
+            cam.orthographicSize = camSize * (defaultR / r);
+        }
     }
 
     void Update()
@@ -38,6 +47,8 @@ public class CameraController: MonoBehaviour
     {
         Vector3 newPosition = Player.instance.transform.position;
 
+        float targetSize = 5f;
+
         if (currentBounds != null)
         {
             if (currentBounds.lockY)
@@ -52,22 +63,33 @@ public class CameraController: MonoBehaviour
 
             newPosition += (Vector3)currentBounds.camOffset;
 
-            if(Mathf.Abs(cam.orthographicSize - currentBounds.cameraSize) <= 0.05f)
-            {
-                cam.orthographicSize = currentBounds.cameraSize;
-            }
-            else
-            {
-                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, currentBounds.cameraSize, camSizeLerp * Time.deltaTime);
-            }
+            targetSize = currentBounds.cameraSize;
 
             Lerp(newPosition, currentBounds.lockX ? inBoundsLerp : outBoundsLerp, currentBounds.lockY ? inBoundsLerp : outBoundsLerp);
-            return;
+        }
+        else
+        {
+            newPosition += cameraOffset;
+
+            Lerp(newPosition, outBoundsLerp, outBoundsLerp);
         }
 
-        newPosition += cameraOffset;
+        if (Mathf.Abs(camSize - targetSize) <= 0.05f)
+        {
+            camSize = targetSize;
+        }
+        else
+        {
+            camSize = Mathf.Lerp(camSize, targetSize, camSizeLerp * Time.deltaTime);
+        }
 
-        Lerp(newPosition, outBoundsLerp, outBoundsLerp);
+        float r = (float)Screen.width / (float)Screen.height;
+        float defaultR = 16f / 9f;
+
+        if (r < defaultR)
+        {
+            cam.orthographicSize = camSize * (defaultR / r);
+        }
     }
 
     bool InBounds(Bounds currentBounds)
