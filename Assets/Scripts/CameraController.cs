@@ -27,14 +27,18 @@ public class CameraController: MonoBehaviour
 
     void Update()
     {
-        currentBounds = null;
-
-        foreach (Bounds b in allBounds)
+        if (currentBounds == null || !InBounds(currentBounds))
         {
-            if (InBounds(b))
+            foreach (Bounds b in allBounds)
             {
-                currentBounds = b;
+                if (InBounds(b))
+                {
+                    currentBounds = b;
+                    return;
+                }
             }
+
+            currentBounds = null;
         }
     }
 
