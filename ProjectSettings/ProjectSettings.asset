@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: TheBoys
   productName: Spartan Ascent
-  defaultCursor: {fileID: 2800000, guid: 3b9779e3f17c43b42afac7cfe9e423e0, type: 3}
+  defaultCursor: {fileID: 2800000, guid: de13ec8e3d0f23b48886c511d95dcf45, type: 3}
   cursorHotspot: {x: 10, y: 2}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
