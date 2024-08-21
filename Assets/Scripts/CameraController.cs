@@ -90,6 +90,10 @@ public class CameraController: MonoBehaviour
         {
             cam.orthographicSize = camSize * (defaultR / r);
         }
+        else
+        {
+            cam.orthographicSize = camSize; 
+        }
     }
 
     bool InBounds(Bounds currentBounds)
