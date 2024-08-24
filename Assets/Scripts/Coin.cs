@@ -28,7 +28,9 @@ public class Coin : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject == Player.instance.gameObject)
+        if (Player.instance == null) return;
+
+        if (collision.gameObject == Player.instance.gameObject)
         {
             Collect();
             return;

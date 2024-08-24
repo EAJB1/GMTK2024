@@ -6,26 +6,22 @@ public class CameraController: MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] Vector3 cameraOffset;
-    [SerializeField] float inBoundsLerp, outBoundsLerp;
+    [SerializeField] float inBoundsLerp, outBoundsLerp, camSizeLerp;
 
     Bounds[] allBounds;
     Bounds currentBounds;
+    float camSize = 5f;
 
     private void Awake()
     {
         allBounds = FindObjectsByType<Bounds>(FindObjectsSortMode.None);
-    }
 
-    void Update()
-    {
-        currentBounds = null;
+        float r = (float)Screen.width / (float)Screen.height;
+        float defaultR = 16f / 9f;
 
-        foreach (Bounds b in allBounds)
+        if (r < defaultR)
         {
-            if (InBounds(b))
-            {
-                currentBounds = b;
-            }
+            cam.orthographicSize = camSize * (defaultR / r);
         }
     }
 
@@ -36,9 +32,22 @@ public class CameraController: MonoBehaviour
 
     void CameraFollow()
     {
-        Vector3 newPosition;
+        Vector3 newPosition = Player.instance == null ? transform.position : Player.instance.transform.position;
+        
+        if (currentBounds == null || !InBounds(currentBounds, newPosition))
+        {
+            currentBounds = null;
 
-        newPosition = cameraOffset + Player.instance.transform.position;
+            foreach (Bounds b in allBounds)
+            {
+                if (InBounds(b, newPosition))
+                {
+                    currentBounds = b;
+                }
+            }
+        }
+
+        float targetSize = 5f;
 
         if (currentBounds != null)
         {
@@ -52,20 +61,46 @@ public class CameraController: MonoBehaviour
                 newPosition.x = currentBounds.transform.position.x;
             }
 
-            cam.orthographicSize = currentBounds.cameraSize;
+            newPosition += (Vector3)currentBounds.camOffset;
 
-            Lerp(newPosition, inBoundsLerp);
-            return;
+            targetSize = currentBounds.cameraSize;
+
+            Lerp(newPosition, currentBounds.lockX ? inBoundsLerp : outBoundsLerp, currentBounds.lockY ? inBoundsLerp : outBoundsLerp);
+        }
+        else
+        {
+            newPosition += cameraOffset;
+
+            Lerp(newPosition, outBoundsLerp, outBoundsLerp);
         }
 
-        Lerp(newPosition, outBoundsLerp);
+        if (Mathf.Abs(camSize - targetSize) <= 0.05f)
+        {
+            camSize = targetSize;
+        }
+        else
+        {
+            camSize = Mathf.Lerp(camSize, targetSize, camSizeLerp * Time.deltaTime);
+        }
+
+        float r = (float)Screen.width / (float)Screen.height;
+        float defaultR = 16f / 9f;
+
+        if (r < defaultR)
+        {
+            cam.orthographicSize = camSize * (defaultR / r);
+        }
+        else
+        {
+            cam.orthographicSize = camSize; 
+        }
     }
 
-    bool InBounds(Bounds currentBounds)
+    bool InBounds(Bounds currentBounds, Vector2 newPosition)
     {
         Vector3 boundsPosition = currentBounds.transform.localScale;
 
-        Vector2 distance = currentBounds.transform.position - Player.instance.transform.position;
+        Vector2 distance = (Vector2)currentBounds.transform.position - newPosition;
 
         if (distance.x <= boundsPosition.x / 2f &&
             distance.x >= -boundsPosition.x / 2f &&
@@ -80,9 +115,11 @@ public class CameraController: MonoBehaviour
         }
     }
 
-    void Lerp(Vector3 pos, float lerp)
+    void Lerp(Vector3 pos, float lerpX, float lerpY)
     {
-        pos.z = cameraOffset.z;
-        transform.position = Vector3.Lerp(transform.position, pos, lerp * Time.deltaTime);
+        float x = Mathf.Lerp(transform.position.x, pos.x, lerpX * Time.deltaTime);
+        float y = Mathf.Lerp(transform.position.y, pos.y, lerpY * Time.deltaTime);
+
+        transform.position = new Vector3(x, y, cameraOffset.z);
     }
 }

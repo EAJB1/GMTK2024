@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -34,6 +35,10 @@ public class Player : MonoBehaviour
 
     [Space]
 
+    public bool inCutscene;
+
+    [Space]
+
     [SerializeField] Checkpoint currentCheckpoint;
     bool waitingForInput;
 
@@ -45,7 +50,6 @@ public class Player : MonoBehaviour
 
     Vector2 moveDirection = Vector2.right;
     bool isGrounded = true, canJump;
-
 
     private void OnDrawGizmosSelected()
     {
@@ -59,21 +63,56 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        //StartCoroutine(WaitToStopPlayer());
     }
 
     private void Start()
     {
         Cursor.SetCursor(pointCursor, cursorHotspot, CursorMode.Auto);
+
         anim.SetBool("Running", true);
+
+    }
+
+    IEnumerator WaitToStopPlayer()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (currentCheckpoint != null)
+        {
+            if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Left &&
+                xDirection != -1f)
+            {
+                xDirection = -1f;
+                sr.flipX = true;
+            }
+            else if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
+                xDirection != 1f)
+            {
+                xDirection = 1f;
+                sr.flipX = false;
+            }
+
+            if (currentCheckpoint.startStationary)
+            {
+                StopPlayer();
+            }
+        }
     }
 
     private void Update()
     {
-        clicked = false;
-
-        if (selectPhase == InputActionPhase.Performed)
+        if (inCutscene)
         {
-            //clicked = true;
+            return;
+        }
+
+        if (waitingForInput && selectPhase == InputActionPhase.Performed ||
+            waitingForInput && jumpPhase == InputActionPhase.Performed)
+        {
+            StartPlayer();
+            // display text: "Click to continue"
         }
 
         if (jumpPhase == InputActionPhase.Performed)
@@ -87,17 +126,20 @@ public class Player : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
             jumpBufferCounter = Mathf.Clamp(jumpBufferCounter, 0f, jumpBufferTime);
         }
+    }
 
-        if (waitingForInput && selectPhase == InputActionPhase.Performed ||
-            waitingForInput && jumpPhase == InputActionPhase.Performed)
-        {
-            StartPlayer();
-            // display text: "Click to continue"
-        }
+    private void LateUpdate()
+    {
+        clicked = false;
     }
 
     void FixedUpdate()
     {
+        if(transform.parent != null)
+        {
+            Debug.Log(transform.parent);
+        }
+
         if(Physics2D.OverlapBox(new Vector2(transform.position.x + xDirection * shield.localPosition.x, shield.position.y), shieldCheckSize, 0f, wallLayer))
         {
             SoundManager.instance.PlaySound("Shield Hit");
@@ -152,7 +194,7 @@ public class Player : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (gamePaused) return;
+        if (gamePaused || inCutscene) return;
 
         jumpPhase = ctx.phase;
     }
@@ -171,7 +213,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool PlayerClicked()
+    public bool HasPlayerClicked()
     {
         return clicked;
     }
@@ -198,18 +240,46 @@ public class Player : MonoBehaviour
         sr.flipX = !sr.flipX;
     }
 
+    public void Die()
+    {
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+
+        SoundManager.instance.PlaySound("Die");
+
+        anim.SetBool("Falling", false);
+        anim.SetBool("Jumping", false);
+
+        anim.SetTrigger("Die");
+
+        enabled = false;
+    }
+
     public void Respawn()
     {
+        enabled = true;
+
+        SoundManager.instance.PlaySound("Respawn");
+
+        foreach (ScaleableEntity entity in ScaleableEntity.scaleableEntities)
+        {
+            entity.ResetScale();
+        }
+
         if (currentCheckpoint != null)
         {
             transform.position = currentCheckpoint.transform.position;
 
             if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Left &&
-                xDirection == Mathf.Abs(xDirection) ||
-                currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
-                xDirection == -Mathf.Abs(xDirection))
+                xDirection != -1f)
             {
-                FlipDirection();
+                xDirection = -1f;
+                sr.flipX = true;
+            }
+            else if (currentCheckpoint.startDirection == Checkpoint.StartDirection.Right &&
+                xDirection != 1f)
+            {
+                xDirection = 1f;
+                sr.flipX = false;
             }
 
             if (currentCheckpoint.startStationary)
@@ -233,7 +303,7 @@ public class Player : MonoBehaviour
         SoundManager.instance.PlaySound("Step");
     }
 
-    void StopPlayer()
+    public void StopPlayer()
     {
         previousXDirection = xDirection;
         xDirection = 0f;
