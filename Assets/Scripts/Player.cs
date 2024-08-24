@@ -71,8 +71,9 @@ public class Player : MonoBehaviour
     {
         Cursor.SetCursor(pointCursor, cursorHotspot, CursorMode.Auto);
 
-        anim.SetBool("Running", true);
+        Coin.coinsCollected = 0;
 
+        anim.SetBool("Running", true);
     }
 
     IEnumerator WaitToStopPlayer()

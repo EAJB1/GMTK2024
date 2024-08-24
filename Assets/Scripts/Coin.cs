@@ -41,7 +41,6 @@ public class Coin : MonoBehaviour
     {
         coinsCollected++;
 
-        //Play coin sfx
         SoundManager.instance.PlaySound("Coin");
 
         coinUI.UpdateCoinUI(coinsCollected);
