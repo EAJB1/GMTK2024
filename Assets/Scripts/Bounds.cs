@@ -8,6 +8,11 @@ public class Bounds : MonoBehaviour
     public float cameraSize;
     public bool lockY, lockX;
 
+    [Space]
+
+    public GameObject fade;
+    public Animator fadeAnim;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

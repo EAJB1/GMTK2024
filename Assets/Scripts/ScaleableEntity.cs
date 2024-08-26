@@ -177,7 +177,7 @@ public class ScaleableEntity : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interacted with" + gameObject);
+        //Debug.Log("Interacted with" + gameObject);
 
         if(lerping)
         {

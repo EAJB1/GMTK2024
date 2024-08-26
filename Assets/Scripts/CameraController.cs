@@ -9,7 +9,7 @@ public class CameraController: MonoBehaviour
     [SerializeField] float inBoundsLerp, outBoundsLerp, camSizeLerp;
 
     Bounds[] allBounds;
-    Bounds currentBounds;
+    Bounds currentBounds, previousBounds;
     float camSize = 5f;
 
     private void Awake()
@@ -37,12 +37,18 @@ public class CameraController: MonoBehaviour
         if (currentBounds == null || !InBounds(currentBounds, newPosition))
         {
             currentBounds = null;
-
+            
             foreach (Bounds b in allBounds)
             {
                 if (InBounds(b, newPosition))
                 {
+                    if (previousBounds != null && previousBounds != b && previousBounds.fade != null)
+                    {
+                        previousBounds.fade.SetActive(false);
+                    }
+
                     currentBounds = b;
+                    previousBounds = b;
                 }
             }
         }
@@ -66,9 +72,21 @@ public class CameraController: MonoBehaviour
             targetSize = currentBounds.cameraSize;
 
             Lerp(newPosition, currentBounds.lockX ? inBoundsLerp : outBoundsLerp, currentBounds.lockY ? inBoundsLerp : outBoundsLerp);
+
+            if (((Vector2)newPosition - (Vector2)transform.position).magnitude <= 0.01f &&
+                currentBounds.fade != null)
+            {
+                currentBounds.fade.SetActive(true);
+                currentBounds.fadeAnim.Play("FadeIn");
+            }
         }
         else
         {
+            if (currentBounds == null && previousBounds.fade != null)
+            {
+                previousBounds.fade.SetActive(false);
+            }
+
             newPosition += cameraOffset;
 
             Lerp(newPosition, outBoundsLerp, outBoundsLerp);

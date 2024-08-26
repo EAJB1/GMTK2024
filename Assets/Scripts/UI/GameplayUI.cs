@@ -116,7 +116,7 @@ public class GameplayUI : MonoBehaviour
     {
         if (Player.instance.HasPlayerClicked())
         {
-            Debug.Log("Clicked");
+            //Debug.Log("Clicked");
             if(currentLine == null)
             {
                 return;

@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf68f5599c95ce4fa78fe5d5dbfb10c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camOffset: {x: 0, y: 0}
   cameraSize: 5
-  lockX: 1
   lockY: 1
+  lockX: 1
+  fade: {fileID: 0}
+  fadeAnim: {fileID: 0}
